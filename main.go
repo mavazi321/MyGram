@@ -9,5 +9,5 @@ import (
 func main() {
 	var port = os.Getenv("PORT")
 	database.ConnectToDatabase()
-	routers.StartServer().Run(port)
+	routers.StartServer().Run(":" + port)
 }
