@@ -25,22 +25,20 @@ func Authentication() gin.HandlerFunc {
 
 		}
 
-		
 		db := database.GetDB()
 		userData := verifyToken.(jwt.MapClaims)
 
 		var user models.User
 		err1 := db.Where("id = ?", userData["id"]).First(&user).Error
-		if err1!=nil{
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-			"error":   "unatuhorized",
-			"message": errors.New("sign in to proceed"),
-		})
+		if err1 != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error":   "unatuhorized",
+				"message": errors.New("sign in to proceed"),
+			})
 		}
 
-		(verifyToken.(jwt.MapClaims))["email"]=user.Email
-		(verifyToken.(jwt.MapClaims))["username"]=user.Username
-		
+		(verifyToken.(jwt.MapClaims))["email"] = user.Email
+		(verifyToken.(jwt.MapClaims))["username"] = user.Username
 
 		c.Set("userData", verifyToken)
 		c.Next()

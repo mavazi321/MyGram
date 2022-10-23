@@ -4,6 +4,7 @@ import (
 	"finalproject/models"
 	"fmt"
 	"log"
+	"os"
 
 	"gorm.io/driver/postgres"
 
@@ -11,17 +12,17 @@ import (
 )
 
 var (
-	host    = "localhost"
-	port    = 5432
-	user    = "postgres"
-	pasword = "root"
-	dbname  = "test"
+	host    = os.Getenv("PGHOST")
+	port    = os.Getenv("PGPORT")
+	user    = os.Getenv("PGUSER")
+	pasword = os.Getenv("PGPASSWORD")
+	dbname  = os.Getenv("PGDATABASE")
 	db      *gorm.DB
 	err     error
 )
 
 func ConnectToDatabase() {
-	config := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, pasword, dbname)
+	config := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, pasword, dbname)
 	db, err = gorm.Open(postgres.Open(config), &gorm.Config{})
 
 	if err != nil {
